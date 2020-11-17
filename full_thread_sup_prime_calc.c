@@ -24,39 +24,61 @@ void create_eliminated_seq( unsigned char inc_seq[],
 {
         /* To create an addition sequence 
          * without multiples of n odd primes. */
-        unsigned short int step = 1;
-        unsigned char inc = 2;
         unsigned char mod_result[primes_index];
         unsigned char check;
         unsigned short int i, j;
+
+        /* Create mod list to specify in which steps we come up with
+         * the numbers that are divisible with our elimination primes.
+         * We just seek in first n'th steps (n is primes_index), 
+         * and find 'the step number' modulo 'our primes'.
+         * For example if we come up with 6 in the step 5 
+         * then we come up with 9 in the step 8, namely every step 
+         * that has 2 as modulo 3 is divisible with 3. Like this,
+         * we find the step of the first divisible number with 
+         * our i'th prime. Then calculate 'this step' modulo 
+         * 'ith primes value'. Then we save this modulus result 
+         * to the mod_result array. The mod_result array's 
+         * i'th index holds the modulus result of the 
+         * primes_array's i'th prime. And repeat this algorithm
+         * until find the all modulus of the our elimination primes.*/
+        unsigned short int step = 1; /* First step for addition */
+        
+        unsigned char addend = 2; /* The value of the addition in an each step. 
+                                   * It is 2 because we just count odd numbers.*/
+        
         for (i = 0 ; i < primes_index ; ) {
-                if ( (1 + inc) % primes_array[i] == 0 ) {
+                if ( (1 + addend) % primes_array[i] == 0 ) {
                         mod_result[i] = step;
                         step++;
-                        inc += 2;
+                        addend += 2;
                         i++;
                 } else {
                         step++;
-                        inc += 2;
+                        addend += 2;
                 }
         }
 
+        /* Finding the inc value to jump over the numbers
+         * that divisible with our elimination primes.
+         * The mod list created above is used in this algorithm.
+         * Simply, we check the n'th step and */
         step = 1;
         for (i = 0 ; i < inc_seq_index ; i++) {
-                inc = 2;
+                addend = 2;
                 check = 0;
                 while (check < primes_index) {
                         for (j = 0 ; j < primes_index ; j++) {
                             if (step % primes_array[j] == mod_result[j]) {
                                     step++;
-                                    inc += 2;
+                                    addend += 2;
                                     check = 0;
                             } else {
                                     check++;
                             }
                         }
                 }
-                inc_seq[i] = inc;
+                inc_seq[i] = addend;
                 step++;
         }
 }
@@ -81,14 +103,12 @@ void *check( void *threadargs )
                 thread_id = *num_of_threads;
         }
 
-        //if ( thread_id % *num_of_threads != 0 ) {
         unsigned char step_init = 0;
         for ( unsigned int i = 0 ; i < thread_id ; i++ ) {
                 step_init += inc_seq[i];
         }
         
         mpz_add_ui(divisor, divisor, step_init);
-        //}
 
         unsigned char parallel_inc[inc_seq_index];
         for ( unsigned int i = 0 ; i < inc_seq_index ; i++ ) {
@@ -100,19 +120,11 @@ void *check( void *threadargs )
             }
         }
 
-        //gmp_printf("Num = %Zd\nLimit = %Zd\n", *num, *limit);
-        //printf("check_byt = %d\nthread_id = %d\nnum_of_threads = %d\n", *check_byt, thread_id, *num_of_threads);
-/*
-        for (int i ; i < inc_seq_index ; i++) {
-                printf("%d ", inc_seq[i]);
-        }
-*/
-
         for ( unsigned char i = 0 ; mpz_cmp(*limit, divisor) >= 0 ; i++ ) {
                 i %= inc_seq_index;
                 if ( mpz_divisible_p(*num, divisor) != 0 ) {
                         gmp_printf("Not prime. Divisible with %Zd", divisor);
-                        exit(-1);
+                        exit(0);
                 }
                 mpz_add_ui(divisor, divisor, parallel_inc[i]);
         }
@@ -122,12 +134,18 @@ void *check( void *threadargs )
 
 
 
-int main(void) 
+int main(int argc, char *argv[]) 
 {
         mpz_t num;
-        mpz_init(num);
-        printf("%s", "Gimme the integer\n---> ");
-        gmp_scanf("%Zd", num);
+        
+        if ( (argc != 2) || (mpz_init_set_str(num, argv[1], 10) != 0) ) {
+                printf("%s", "\nUsage: yprime <number>\n\n");
+                return -1;
+        }
+
+//        mpz_init(num);
+//        printf("%s", "Gimme the integer\n---> ");
+//        gmp_scanf("%Zd", num);
         gmp_printf("Given number is %Zd\n", num);
 
         if ( mpz_divisible_ui_p(num, 2) != 0 ) {
