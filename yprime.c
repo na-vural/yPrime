@@ -142,7 +142,7 @@ void *check( void *threadargs )
         for ( unsigned char i = 0 ; mpz_cmp(*limit, divisor) >= 0 ; i++ ) {
                 i %= inc_seq_len;
                 if ( mpz_divisible_p(*num, divisor) != 0 ) {
-                        gmp_printf("Not prime. Divisible with %Zd", divisor);
+                        gmp_printf("Not prime. Divisible with %Zd\n", divisor);
                         exit(0);
                 }
                 mpz_add_ui(divisor, divisor, parallel_inc[i]);
@@ -166,10 +166,10 @@ int main(int argc, char *argv[])
         /* Eliminate 2 and even numbers. */
         if ( mpz_divisible_ui_p(num, 2) != 0 ) {
                 if ( mpz_cmp_ui(num, 2) == 0 ) {
-                        printf("%s", "First and last even prime.");
+                        printf("%s", "First and last even prime.\n");
                         return 0;
                 } else {
-                        printf("%s", "Not prime. It is an even number.");
+                        printf("%s", "Not prime. It is an even number.\n");
                         return 0;
                 }
         }
@@ -182,10 +182,10 @@ int main(int argc, char *argv[])
         for ( unsigned char i = 0; i < el_primes_len ; i++ ) {
                 if ( mpz_divisible_ui_p(num, el_primes[i]) != 0 ) {
                         if ( mpz_cmp_ui(num, el_primes[i]) == 0 ) {
-                                printf("%s", "Prime");
+                                printf("%s", "Prime\n");
                                 return 0;
                         } else {
-                                printf( "Not prime divisible with %d.",
+                                printf( "Not prime divisible with %d.\n",
                                         el_primes[i]);
                                 return 0;
                         }
@@ -231,7 +231,7 @@ int main(int argc, char *argv[])
                 pthread_join(threads[i], NULL); 
         }
 
-        printf("%s", "PRIME");
+        printf("%s", "PRIME\n");
         pthread_exit(NULL);
         return 0;
 }
