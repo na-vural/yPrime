@@ -4,7 +4,7 @@ Yet another prime calculator. Of course the name is a result of an inspiration c
 
 ## Purpose
 
-Prime calculation as fast as possible.
+Find prime numbers as fast as possible.
 
 ## Features
 
@@ -23,7 +23,7 @@ Just clone the repo, and `make all`.
 ## Usage
 
 ```
-$ yprime <number>
+$ ./yprime <number>
 ```
 
 ## Any suggestions are welcome
