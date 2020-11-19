@@ -4,13 +4,13 @@ Yet another prime calculator. Of course the name is a result of an inspiration c
 
 ## Purpose
 
-Find prime numbers as fast as possible.
+Find whether a number is prime or not as fast as possible.
 
 ## Features
 
-- Divisors are not even numbers and multiples of 3, 5, 7, 11. 
+- Divisors are not even numbers and multiples of 3, 5, 7, 11. ([Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)) 
 
-- Deal with big numbers such big that maybe calculation never ends, thanks to gmp library.
+- Deal with big numbers such big (> 10^22) that maybe calculation never ends, thanks to gmp library.
 
 - Use the hundred percent of all the cpu cores, thanks to pthread library.
 
