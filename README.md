@@ -1,6 +1,6 @@
 # yPrime
 
-Yet another prime calculator. Of course the name is a result of an inspiration coming from the name of [yay](https://github.com/Jguer/yay).
+Yet another prime checker. Of course the name is a result of an inspiration coming from the name of [yay](https://github.com/Jguer/yay).
 
 ## Purpose
 
