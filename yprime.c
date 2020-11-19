@@ -161,6 +161,12 @@ int main(int argc, char *argv[])
                 printf("%s", "\nUsage: yprime <number>\n\n");
                 return 1;
         }
+
+        if ( mpz_cmp_ui(num, 2) < 0 ) {
+                printf("%s", "\nGiven number must be greater than 1.\n\n");
+                return 1;
+        }
+
         gmp_printf("Given number is %Zd\n", num);
 
         /* Eliminate 2 and even numbers. */
