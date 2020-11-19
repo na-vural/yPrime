@@ -28,4 +28,4 @@ $ ./yprime <number>
 
 ## Any suggestions are welcome
 
-![xkcd.com/1513](https://imgs.xkcd.com/comics/code_quality.png)
+[![The Comic](https://imgs.xkcd.com/comics/code_quality.png "xkcd.com/1513")](https://xkcd.com/1513)
